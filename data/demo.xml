@@ -1,0 +1,19 @@
+<odoo>
+    <data>
+        <record id="property_1" model="estate.property">
+            <field name="name">Modern Orchard Villa</field>
+            <field name="description">A spacious 3-bedroom villa with a private garden and modern amenities.</field>
+            <field name="postcode">10001</field>
+            <field name="date_availability">2026-06-01</field>
+            <field name="expected_price">450000.00</field>
+            <field name="selling_price">425000.00</field>
+            <field name="bedrooms">3</field>
+            <field name="living_area">180</field>
+            <field name="facades">4</field>
+            <field name="garage">True</field>
+            <field name="garden">True</field>
+            <field name="garden_area">50</field>
+            <field name="garden_orientation">south</field>
+        </record>
+    </data>
+</odoo>

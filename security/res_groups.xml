@@ -1,0 +1,5 @@
+<odoo>
+    <record id="estate_admin" model= "res.groups">
+        <field name="name">Estate Managers</field>
+    </record>
+</odoo>

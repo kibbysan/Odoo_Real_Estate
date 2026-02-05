@@ -1,0 +1,13 @@
+<odoo>
+    <menuitem id="root_level" name="Real Estate">
+        <menuitem id="second_level" name="Advertisements">
+            <menuitem id="third_level" name="All Properties" action="test_record"/>
+            <menuitem id="estate_property_offer_menu" name="Offers" action="estate_property_offer_action"/>
+        </menuitem>    
+        
+        <menuitem id ="settings_menu" name="Settings">
+            <menuitem id="property_types_menu" name="Property Types" action="estate_property_type_action"/>
+            <menuitem id="property_tags_menu" name="Property Tags" action="estate_property_tag_action"/>
+        </menuitem>
+    </menuitem>
+</odoo>
