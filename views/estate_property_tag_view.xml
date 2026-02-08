@@ -18,6 +18,7 @@
                         <label for="name" />
                         <h1>
                             <field name="name" />
+                            <field name= "color" widget="color_index"/>
                         </h1>
                     </div>
                 </sheet>

@@ -5,6 +5,7 @@ from dateutil.relativedelta import relativedelta
 class EstatePropertyOffer(models.Model):
     _name = "estate.property.offer"
     _description = "Offers made for real estates"
+    _order = "price desc"
 
     _sql_constraints = [
         ('offer_price_positive', 'CHECK(price>0)', 'The offer price must be positive.')
@@ -19,7 +20,7 @@ class EstatePropertyOffer(models.Model):
         copy = False
     )
     partner_id = fields.Many2one("res.partner", required=True)
-    property_id = fields.Many2one("estate.property", required=True)
+    property_id = fields.Many2one("estate.property", required=True, ondelete="cascade")
     property_type_id = fields.Many2one(related = 'property_id.property_type_id', store = True)
 
     validity = fields.Integer(string="Validity (days)", default=7)
@@ -35,6 +36,13 @@ class EstatePropertyOffer(models.Model):
         for offer in self:
             base_date = offer.create_date.date() if offer.create_date else fields.Date.today()
             offer.validity = (offer.date_deadline - base_date).days
+
+    @api.model
+    def create(self, vals):
+        offer = super().create(vals)
+        if offer.property_id.state == 'new':
+            offer.property_id.state = 'received'
+        return offer
 
     def action_accept(self):
         self.ensure_one()
