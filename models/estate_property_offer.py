@@ -1,5 +1,6 @@
 from odoo import api, fields, models, _
 from odoo.exceptions import UserError
+from odoo.tools.float_utils import float_compare
 from dateutil.relativedelta import relativedelta
 
 class EstatePropertyOffer(models.Model):
@@ -43,6 +44,12 @@ class EstatePropertyOffer(models.Model):
             property_id = self.env['estate.property'].browse(vals.get('property_id'))
             if property_id.state in ('accepted', 'sold', 'canceled'):
                 raise UserError(_("You cannot make an offer on a property that is already accepted, sold, or canceled."))
+            
+            if property_id.offer_ids:
+                max_offer = max(property_id.offer_ids.mapped('price'))
+                if float_compare(vals.get('price'), max_offer, precision_digits=2) == -1:
+                    raise UserError(_("The offer must be higher than %.2f") % max_offer)
+
             if property_id.state == 'new':
                 property_id.state = 'received'
         return super().create(vals_list)
