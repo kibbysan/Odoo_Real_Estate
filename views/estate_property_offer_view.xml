@@ -1,21 +1,26 @@
 <odoo>
-     <record id='estate_property_offer_list_view' model='ir.ui.view'>
+   <record id='estate_property_offer_list_view' model='ir.ui.view'>
         <field name='name'>estate.property.offer.view.list</field>
         <field name='model'>estate.property.offer</field>
         <field name='arch' type='xml'>
-            <list string= 'Offers'>
+            <list string='Offers'
+                editable="top"
+                decoration-success="status == 'accepted'"
+                decoration-danger="status == 'refused'"
+                >
+                <field name='status' optional='show'/>
                 <field name='property_id' />
                 <field name='partner_id' />
                 <field name='price' />
                 <field name='validity' />
-                <field name='date_deadline' />
-                <button icon="fa-check" type="object" name="action_accept"/>
-                <button icon="fa-times" type="object" name="action_refuse"/>
-                <field name='status' />
-                <field name = 'property_type_id'/>
+                <field name='date_deadline' invisible="status in ('accepted', 'refused')"/>
+                <button icon="fa-check" invisible="status" type="object" name="action_accept"/>
+                <button icon="fa-times" invisible="status" type="object" name="action_refuse"/>
+                <field name='property_type_id'/>
             </list>
         </field>
     </record>
+
     <record id='estate_property_offer_form_view' model='ir.ui.view'>
         <field name='name'>estate.property.offer.view.form</field>
         <field name='model'>estate.property.offer</field>
@@ -29,12 +34,13 @@
                         <field name='validity' />
                         <field name='date_deadline' />
                         <field name='status' />
-                        <field name = 'property_type_id'/>
+                        <field name='property_type_id'/>
                     </group>
                 </sheet>
             </form>
         </field>
     </record>
+
     <record id="estate_property_offer_action" model="ir.actions.act_window">
         <field name="name">Property Offers</field>
         <field name="res_model">estate.property.offer</field>

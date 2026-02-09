@@ -37,12 +37,15 @@ class EstatePropertyOffer(models.Model):
             base_date = offer.create_date.date() if offer.create_date else fields.Date.today()
             offer.validity = (offer.date_deadline - base_date).days
 
-    @api.model
-    def create(self, vals):
-        offer = super().create(vals)
-        if offer.property_id.state == 'new':
-            offer.property_id.state = 'received'
-        return offer
+    @api.model_create_multi
+    def create(self, vals_list):
+        for vals in vals_list:
+            property_id = self.env['estate.property'].browse(vals.get('property_id'))
+            if property_id.state in ('accepted', 'sold', 'canceled'):
+                raise UserError(_("You cannot make an offer on a property that is already accepted, sold, or canceled."))
+            if property_id.state == 'new':
+                property_id.state = 'received'
+        return super().create(vals_list)
 
     def action_accept(self):
         self.ensure_one()
