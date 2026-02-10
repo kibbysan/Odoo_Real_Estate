@@ -3,7 +3,7 @@
     "summary": "Test module",
     "version": "19.0.0.0.0",
     "license": "LGPL-3",
-    "depends": ["base","crm"],
+    "depends": ["base","crm","mail"],
     "data":[
         "security/res_groups.xml",
         "security/ir.model.access.csv",

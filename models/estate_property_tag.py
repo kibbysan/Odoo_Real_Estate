@@ -2,11 +2,12 @@ from odoo import fields, models
 
 class EstatePropertyTag(models.Model):
     _name = "estate.property.tag"
+    _inherit = "estate.mixin"
     _description = "Estate Property Tag Model"
     _sql_constraints = [
         ("tag_name_unique", "UNIQUE(name)", "The tag name must be unique.")
     ]
     _order = "name"
-    name = fields.Char(string='Name', required=True)
+    #name = fields.Char(string='Name', required=True)
     color = fields.Integer()
 

@@ -6,13 +6,14 @@ from odoo.tools.float_utils import float_compare, float_is_zero
 class EstateProperty(models.Model):
     _name = "estate.property"
     _description = "Estate Property Model"
+    _inherit = ['mail.thread', 'mail.activity.mixin']
     _sql_constraints = [
         ("expected_price_positive", "CHECK(expected_price > 0)", "The expected price must be positive."),
         ("selling_price_positive", "CHECK(selling_price >= 0)", "The selling price must be non-negative.")
     ]
     _order = "id desc"
     active = fields.Boolean(default=True)
-    name = fields.Char(string ="Title ", required=True)
+    name = fields.Char(string ="Title ", required=True, tracking= True)
     state = fields.Selection(
         [
             ('new', 'New'),
@@ -23,11 +24,17 @@ class EstateProperty(models.Model):
         ],
         required=True,
         copy=False,
-        default='new'
+        default='new',
+        tracking=True
     )
     description = fields.Text(string ="Description")
     other_info = fields.Text(string ="Other Info")
     postcode = fields.Char(string ="Postcode")
+
+    salesperson_id = fields.Many2one(
+        comodel_name = "res.users",
+        string="Salesperson",
+        default=lambda self: self.env.user)
 
     def default_date(self):
         return fields.Date.today()
